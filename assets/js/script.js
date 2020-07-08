@@ -11,14 +11,18 @@ function requestCityWeather() {
             var listTemp = [];
             var listAvTemp = [];
             // for each 8 items (1 day)
-            // get an average of those items
+            // get an average of those items (for 1 day)
+            // and push to listAvTemp
             for (var i = 0; i < response.list.length; i++) {
                 // Getting temps for each item and pushing to listTemp
                 listTemp.push(response.list[i].main.temp);
+
+                // Once we have 8 items in listTemp
                 if (listTemp.length === 8) {
-                    // Once we have 8 items in listTemp
+                    // Loop through these 8 items
                     for (var j = 0; j < listTemp.length; j++) {
                         // Calculate the average of 8 items that are already in the listTemp
+                        // the sum of temps of 8 days
                         dayTemp += listTemp[j];
                     }
                     // Pushing average temp to listAvTemp
