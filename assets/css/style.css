@@ -9,3 +9,7 @@ header span {
     font-weight: bold;
     color: whitesmoke;
 }
+
+.weather-spans {
+    display: block;
+}
