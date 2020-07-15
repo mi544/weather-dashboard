@@ -10,6 +10,8 @@ header span {
     color: whitesmoke;
 }
 
-.weather-spans {
+.weather-span {
     display: block;
 }
+
+#weatherCurrentTitle {}
