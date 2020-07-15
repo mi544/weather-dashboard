@@ -1,4 +1,5 @@
-const requestCityWeatherCurrent = async (cityName) => {
+const requestGenerateCityWeatherCurrent = async (cityName) => {
+    // ----------- API Interaction Block -----------
     const weatherCurrent = await $.ajax({
         url: "https://api.openweathermap.org/data/2.5/weather",
         method: "GET",
@@ -20,6 +21,7 @@ const requestCityWeatherCurrent = async (cityName) => {
         }
     });
 
+    // ----------- Generating Elements Block -----------
     const spanArray = [
         `Temperature: ${weatherCurrent.main.temp} °F`,
         `Humidity: ${weatherCurrent.main.humidity}%`,
@@ -30,9 +32,6 @@ const requestCityWeatherCurrent = async (cityName) => {
 
     const weatherCurrentCard = $("#weatherCurrentCard");
     weatherCurrentCard.empty();
-
-    // !C
-    console.log("Current weather", weatherCurrent);
 
     // TODO ADD A WEATHER ICON
     // Generating an <h3> with city name and current date
@@ -45,8 +44,9 @@ const requestCityWeatherCurrent = async (cityName) => {
 }
 
 
-const requestCityWeather5Days = async (cityName) => {
-    const weather5Days = await $.ajax({
+const requestGenerateCityWeatherForecast = async (cityName) => {
+    // ----------- API Interaction Block -----------
+    const weatherForecast = await $.ajax({
         url: "https://api.openweathermap.org/data/2.5/forecast",
         method: "GET",
         data: {
@@ -56,44 +56,78 @@ const requestCityWeather5Days = async (cityName) => {
         }
     })
 
-    // !C
-    console.log(weather5Days);
-
-    // calculation average temp for 5 days and placing it in the listAvTemp array
-    let listTemp = [];
-    const listAvTemp = [];
+    // calculation average temp for 5 days and placing it in the avForecast array
+    let filteredForecast = [];
+    const avForecast = [];
     // for each 8 items (1 day)
     // get an average of those items (for 1 day)
-    // and push to listAvTemp
-    for (let i = 0; i < weather5Days.list.length; i++) {
-        // Getting temps for each item and pushing to listTemp
-        listTemp.push(weather5Days.list[i].main.temp);
+    // and push to avForecast
+    for (let item of weatherForecast.list) {
+        // Getting temps for each item and pushing to filteredForecast
+        filteredForecast.push({
+            temp: item.main.temp,
+            humidity: item.main.humidity,
+            date: item.dt
+        });
 
-        // Once we have 8 items in listTemp
-        if (listTemp.length === 8) {
+        // Once we have 8 items in filteredForecast
+        if (filteredForecast.length === 8) {
             let dayTemp = 0;
+            let dayHumidity = 0;
+            let currentDate;
             // Loop through these 8 items
-            for (let j = 0; j < listTemp.length; j++) {
-                // Calculate the average of 8 items that are already in the listTemp
+            for (let item2 of filteredForecast) {
+                // Calculate the average of 8 items that are already in the filteredForecast
                 // the sum of temps of 8 days
-                dayTemp += listTemp[j];
+                dayTemp += item2.temp;
+                dayHumidity += item2.humidity;
+                currentDate = !currentDate ? item2.date : currentDate;
             }
-            // Pushing average temp (down to 2 decimals) to listAvTemp
-            listAvTemp.push((dayTemp / 8).toFixed(2));
-            // Clearing listTemp
-            listTemp = [];
+            // Pushing average temp (down to 2 decimals) to avForecast
+            avForecast.push({
+                temp: (dayTemp / 8).toFixed(2),
+                humidity: Math.round((dayHumidity / 8)),
+                date: moment.unix(currentDate).format("M/D/Y")
+            });
+            // Clearing filteredForecast
+            filteredForecast = [];
         }
     }
+
     // !C
-    console.log("av temp 5 days", listAvTemp);
+    console.log("av temp 5 days", avForecast);
+
+    // ----------- Generating Elements Block -----------
+    const weatherForecastCard = $("#weatherForecastCard");
+    weatherForecastCard.empty();
+
+    for (let item of avForecast) {
+        weatherForecastCard.append(
+            $("<div>").attr("class", "col").append(
+                $("<div>").attr("class", "card text-white bg-primary mb-3 forecastCard").append(
+                    $("<div>").attr("class", "card-body").append(
+                        $("<h5>").attr("class", "card-title").text(`${item.date}`),
+                        $("<img>").attr({
+                            "src": "weather icon link here",
+                            alt: "alt text"
+                        }),
+                        $("<span>").attr("class", "card-text").text(`Temp: ${item.temp} °F`),
+                        $("<span>").attr("class", "card-text").text(`Humidity: ${item.humidity}%`)
+
+                    )
+                )
+            )
+        );
+    }
 }
 
 $("#cityUl").on("click", ".cityName", function () {
     const cityName = $(this).text();
     // !C
+    // TODO add data attr
     console.log(cityName);
-    requestCityWeather5Days(cityName);
-    requestCityWeatherCurrent(cityName);
+    requestGenerateCityWeatherForecast(cityName);
+    requestGenerateCityWeatherCurrent(cityName);
 });
 
 
