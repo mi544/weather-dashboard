@@ -56,6 +56,9 @@ const requestGenerateCityWeatherForecast = async (cityName) => {
         }
     })
 
+    // !C
+    console.log(weatherForecast);
+
     // calculation average temp for 5 days and placing it in the avForecast array
     let filteredForecast = [];
     const avForecast = [];
@@ -67,7 +70,8 @@ const requestGenerateCityWeatherForecast = async (cityName) => {
         filteredForecast.push({
             temp: item.main.temp,
             humidity: item.main.humidity,
-            date: item.dt
+            date: item.dt,
+            weather: item.weather[0].main
         });
 
         // Once we have 8 items in filteredForecast
@@ -75,19 +79,23 @@ const requestGenerateCityWeatherForecast = async (cityName) => {
             let dayTemp = 0;
             let dayHumidity = 0;
             let currentDate;
+            let currentWeather;
             // Loop through these 8 items
-            for (let item2 of filteredForecast) {
+            for (let i = 0; i < filteredForecast.length; i++) {
                 // Calculate the average of 8 items that are already in the filteredForecast
-                // the sum of temps of 8 days
-                dayTemp += item2.temp;
-                dayHumidity += item2.humidity;
-                currentDate = !currentDate ? item2.date : currentDate;
+                // the sum of temps of 8 times from 1 day
+                dayTemp += filteredForecast[i].temp;
+                dayHumidity += filteredForecast[i].humidity;
+                currentDate = !currentDate ? filteredForecast[i].date : currentDate;
+                // Using weather only from 12:00 PM
+                currentWeather = i === 4 ? filteredForecast[i].weather : currentWeather;
             }
             // Pushing average temp (down to 2 decimals) to avForecast
             avForecast.push({
                 temp: (dayTemp / 8).toFixed(2),
                 humidity: Math.round((dayHumidity / 8)),
-                date: moment.unix(currentDate).format("M/D/Y")
+                date: moment.unix(currentDate).format("M/D/Y"),
+                weather: currentWeather
             });
             // Clearing filteredForecast
             filteredForecast = [];
@@ -102,14 +110,32 @@ const requestGenerateCityWeatherForecast = async (cityName) => {
     weatherForecastCard.empty();
 
     for (let item of avForecast) {
+        // establish ifs to see if the temperature is hot or not
+        const weather = item.weather.toLowerCase()
+        let iconURL;
+        switch (weather) {
+            case "clear":
+                iconURL = "https://duckduckgo.com/assets/weather/svg/new/clear-day.svg";
+                break;
+            case "clouds":
+                iconURL = "https://duckduckgo.com/assets/weather/svg/new/partly-cloudy-day.svg";
+                break;
+                // TODO rainy find out how called API
+            case '??? rainy??':
+                iconURL = "https://duckduckgo.com/assets/weather/svg/new/rain.svg";
+                break;
+            default:
+        }
+
+
         weatherForecastCard.append(
             $("<div>").attr("class", "col").append(
                 $("<div>").attr("class", "card text-white bg-primary mb-3 forecastCard").append(
                     $("<div>").attr("class", "card-body").append(
                         $("<h5>").attr("class", "card-title").text(`${item.date}`),
                         $("<img>").attr({
-                            "src": "weather icon link here",
-                            alt: "alt text"
+                            "src": iconURL,
+                            alt: `${item.weather.toLowerCase()} weather icon`
                         }),
                         $("<span>").attr("class", "card-text").text(`Temp: ${item.temp} °F`),
                         $("<span>").attr("class", "card-text").text(`Humidity: ${item.humidity}%`)
