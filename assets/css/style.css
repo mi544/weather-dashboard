@@ -10,8 +10,13 @@ header span {
     color: whitesmoke;
 }
 
-.weather-span {
+.weather-span,
+.card-text {
     display: block;
 }
 
 #weatherCurrentTitle {}
+
+.forecastCard {
+    max-width: 11rem;
+}
