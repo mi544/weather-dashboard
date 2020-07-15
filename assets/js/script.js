@@ -22,7 +22,7 @@ const requestCityWeatherCurrent = async (cityName) => {
 
     const spanArray = [
         `Temperature: ${weatherCurrent.main.temp} °F`,
-        `Humidity: ${weatherCurrent.humidity}`,
+        `Humidity: ${weatherCurrent.main.humidity}%`,
         `Wind Speed: ${weatherCurrent.wind.speed} MPH`,
         // TODO ADD A RED BOX IF TOO MUCH OR YELLOW IF NOT REALLY
         `UV Index: ${weatherUVCurrent.value}`
@@ -31,7 +31,7 @@ const requestCityWeatherCurrent = async (cityName) => {
     const weatherCurrentCard = $("#weatherCurrentCard");
     weatherCurrentCard.empty();
 
-    // *--------------------
+    // !C
     console.log("Current weather", weatherCurrent);
 
     // TODO ADD A WEATHER ICON
@@ -56,39 +56,41 @@ const requestCityWeather5Days = async (cityName) => {
         }
     })
 
+    // !C
     console.log(weather5Days);
 
     // calculation average temp for 5 days and placing it in the listAvTemp array
-    var dayTemp = 0;
-    var listTemp = [];
-    var listAvTemp = [];
+    let listTemp = [];
+    const listAvTemp = [];
     // for each 8 items (1 day)
     // get an average of those items (for 1 day)
     // and push to listAvTemp
-    for (var i = 0; i < weather5Days.list.length; i++) {
+    for (let i = 0; i < weather5Days.list.length; i++) {
         // Getting temps for each item and pushing to listTemp
         listTemp.push(weather5Days.list[i].main.temp);
 
         // Once we have 8 items in listTemp
         if (listTemp.length === 8) {
+            let dayTemp = 0;
             // Loop through these 8 items
-            for (var j = 0; j < listTemp.length; j++) {
+            for (let j = 0; j < listTemp.length; j++) {
                 // Calculate the average of 8 items that are already in the listTemp
                 // the sum of temps of 8 days
                 dayTemp += listTemp[j];
             }
-            // Pushing average temp to listAvTemp
-            listAvTemp.push(dayTemp / 8);
+            // Pushing average temp (down to 2 decimals) to listAvTemp
+            listAvTemp.push((dayTemp / 8).toFixed(2));
             // Clearing listTemp
             listTemp = [];
-            dayTemp = 0;
         }
     }
-
+    // !C
+    console.log("av temp 5 days", listAvTemp);
 }
 
 $("#cityUl").on("click", ".cityName", function () {
     const cityName = $(this).text();
+    // !C
     console.log(cityName);
     requestCityWeather5Days(cityName);
     requestCityWeatherCurrent(cityName);
