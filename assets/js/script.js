@@ -1,12 +1,19 @@
-function requestCityWeather() {
-    var city = $(this).text();
-    var queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=856d91b9f228e56edd3da6504c19f051`
+var city = "";
 
+function requestCityWeather() {
     $.ajax({
-            url: queryURL,
-            method: "GET"
+            url: "https://api.openweathermap.org/data/2.5/forecast",
+            method: "GET",
+            data: {
+                q: city,
+                units: "imperial",
+                appid: "856d91b9f228e56edd3da6504c19f051"
+            }
         })
         .then(function (response) {
+            console.log(response);
+
+            // calculation average temp for 5 days and placing it in the listAvTemp array
             var dayTemp = 0;
             var listTemp = [];
             var listAvTemp = [];
@@ -32,11 +39,15 @@ function requestCityWeather() {
                     dayTemp = 0;
                 }
             }
-            console.log(listAvTemp);
-
-
-
         })
 }
 
-$("#cityUl").on("click", ".cityName", requestCityWeather);
+$("#cityUl").on("click", ".cityName", function () {
+    city = $(this).text();
+    console.log(city);
+    requestCityWeather();
+});
+
+
+
+// switch case for weather condition (if 2 rain out of 8 then rainy day, if 1 then mixed, if cloud then cloud)
