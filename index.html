@@ -23,19 +23,19 @@
                     <div class="col">
                         <label for="citySearchName">Search for a City:</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="citySearchName"
-                                aria-describedby="button-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Add</button>
-                            </div>
+                            <form> <input type="text" class="form-control" id="citySearchName"
+                                    aria-describedby="addCityButton">
+                                <button class="btn btn-outline-secondary" type="submit" id="addCityButton">Add</button>
+                                <button class="btn btn-outline-secondary" type="button"
+                                    id="resetCityUlButton">Reset</button>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="card" style="width: 18rem;">
+                        <div class="card" id="cityUlCard">
                             <ul class="list-group list-group-flush" id="cityUl">
-                                <li class="list-group-item cityName">Denver</li>
                             </ul>
                         </div>
                     </div>
@@ -44,8 +44,8 @@
             <div class="col-8 offset-1">
                 <div class="row">
                     <div class="col">
-                        <div class="card">
-                            <div class="card-body" id="weatherCurrentCard">
+                        <div class="card" id="weatherCurrentCard">
+                            <div class="card-body" id="weatherCurrentCardBody">
                             </div>
                         </div>
                     </div>
