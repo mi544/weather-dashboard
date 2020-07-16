@@ -15,8 +15,31 @@ header span {
     display: block;
 }
 
-#weatherCurrentTitle {}
+#weatherCurrentCard {
+    width: fit-content;
+}
+
 
 .forecastCard {
     max-width: 11rem;
+}
+
+#cityUlCard {
+    width: 18rem;
+}
+
+.lowUV {
+    background-color: lightblue;
+}
+
+.moderateUV {
+    background-color: yellow;
+}
+
+.highUV {
+    background-color: orange;
+}
+
+.veryHighUV {
+    background-color: red;
 }
