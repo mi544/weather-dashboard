@@ -3,8 +3,6 @@ let cityList = [];
 if (!localStorage.getItem("cityList")) {
     // creating one if it doesn't exist
     localStorage.setItem("cityList", "");
-    // adding Denver by default
-    cityList.push("Denver");
 } else {
     // pulling it from localStorage if it exists
     cityList = JSON.parse(localStorage.getItem("cityList"));
@@ -21,7 +19,10 @@ if (!localStorage.getItem("cityList")) {
 let lastSearchedCity = "";
 if (!localStorage.getItem("lastSearchedCity")) {
     // creating one if it doesn't exist
-    localStorage.setItem("lastSearchedCity", "");
+    // and setting it to Denver by default
+    // so that it displays some weather at all times
+    localStorage.setItem("lastSearchedCity", "Denver");
+    lastSearchedCity = "Denver";
 } else {
     lastSearchedCity = localStorage.getItem("lastSearchedCity");
 }
