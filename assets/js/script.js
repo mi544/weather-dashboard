@@ -239,8 +239,8 @@ const requestGenerateCityWeatherForecast = async (cityName) => {
  * generates current weather and weather forecast
  * for that city
  */
-$("#cityUl").on("click", ".cityName", (event) => {
-    const cityName = $(event.target).data("city");
+$("#cityUl").on("click", ".cityName", function () {
+    const cityName = $(this).data("city");
     lastSearchedCity = cityName;
     localStorage.setItem("lastSearchedCity", lastSearchedCity)
     requestGenerateCityWeatherForecast(cityName);
@@ -255,7 +255,7 @@ $("#cityUl").on("click", ".cityName", (event) => {
  * adds entered city to cityList and localStorage,
  * displays it on the page
  */
-$("#addCityButton").on("click", () => {
+$("#addCityButton").on("click", function (event) {
     event.preventDefault();
     // if no value is entered exit the function
     if (!$("#citySearchName").val()) {
@@ -292,7 +292,7 @@ $("#addCityButton").on("click", () => {
  * resets cityList in localStorage, resets cityList array
  * removes the cities from the page
  */
-$("#resetCityUlButton").on("click", () => {
+$("#resetCityUlButton").on("click", function () {
     cityList = [];
     localStorage.setItem("cityList", "");
     localStorage.setItem("lastSearchedCity", "");
