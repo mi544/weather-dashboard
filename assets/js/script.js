@@ -276,6 +276,9 @@ $("#addCityButton").on("click", () => {
     }).text(newCity);
     $("#cityUl").append(newCityLi);
 
+    lastSearchedCity = newCity;
+    localStorage.setItem("lastSearchedCity", newCity)
+
     // generating weather for the new city
     requestGenerateCityWeatherForecast(newCity);
     requestGenerateCityWeatherCurrent(newCity);
