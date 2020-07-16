@@ -7,7 +7,27 @@ header {
 header span {
     font-size: 2.5rem;
     font-weight: bold;
-    color: whitesmoke;
+    color: #fff;
+}
+
+.forecastCard {
+    background-color: skyblue !important;
+    max-width: 11rem;
+}
+
+#weatherCurrentCard,
+#weatherForecastTitle {
+    width: fit-content;
+    margin: 0.5rem;
+}
+
+#weatherForecastCard {
+    margin: 0.3rem;
+}
+
+#weatherForecastCard .col {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
 }
 
 .weather-span,
@@ -15,17 +35,13 @@ header span {
     display: block;
 }
 
-#weatherCurrentCard {
-    width: fit-content;
-}
-
-
-.forecastCard {
-    max-width: 11rem;
-}
-
 #cityUlCard {
-    width: 18rem;
+    max-width: 18rem;
+}
+
+#citySearchName {
+    /* margin: 0.1rem; */
+    padding: 0.4rem;
 }
 
 .lowUV {

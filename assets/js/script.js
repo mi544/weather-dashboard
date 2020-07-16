@@ -289,6 +289,7 @@ $("#addCityButton").on("click", () => {
 $("#resetCityUlButton").on("click", () => {
     cityList = [];
     localStorage.setItem("cityList", "");
+    localStorage.setItem("lastSearchedCity", "");
     $("#cityUl").empty();
 });
 
