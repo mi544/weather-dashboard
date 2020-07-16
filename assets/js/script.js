@@ -3,6 +3,8 @@ let cityList = [];
 if (!localStorage.getItem("cityList")) {
     // creating one if it doesn't exist
     localStorage.setItem("cityList", "");
+    // adding Denver by default
+    cityList.push("Denver");
 } else {
     // pulling it from localStorage if it exists
     cityList = JSON.parse(localStorage.getItem("cityList"));
