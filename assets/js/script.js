@@ -188,14 +188,14 @@ const requestGenerateCityWeatherForecast = async (cityName) => {
             let currentDate;
             let currentWeather;
             // Loop through these 8 items
-            for (let i = 0; i < filteredForecast.length; i++) {
+            for (let i in filteredForecast) {
                 // Calculate the average of 8 items that are already in the filteredForecast
                 // the sum of temps of 8 times from 1 day
                 dayTemp += filteredForecast[i].temp;
                 dayHumidity += filteredForecast[i].humidity;
                 currentDate = !currentDate ? filteredForecast[i].date : currentDate;
                 // Using weather condition only from 12:00 PM
-                currentWeather = i === 4 ? filteredForecast[i].weather : currentWeather;
+                currentWeather = Number(i) === 4 ? filteredForecast[i].weather : currentWeather;
             }
             // Pushing average temp (down to 2 decimals) to avForecast
             avForecast.push({
